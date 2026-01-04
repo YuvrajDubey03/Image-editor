@@ -118,3 +118,8 @@ canvas{
     max-height: 80vh;
     display: none;
 }
+.presets{
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--gutter-md);
+}
