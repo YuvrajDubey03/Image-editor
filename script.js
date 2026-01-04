@@ -127,23 +127,34 @@ imageInput.addEventListener("change",(event)=>{
 })
 
 
- function applyFilter(){
-    canvasCtx.clearRect(0,0,imageCanvas.width,imageCanvas.height);
-    canvasCtx.filter =`
-Brightness(${filters.Brightness.value}${filters.Brightness.unit})
-Contrast(${filters.Contrast.value}${filters.Contrast.unit})
-Saturate(${filters.Saturation.value}${filters.Saturation.unit})
-Hue-rotate(${filters.HueRotation.value}${filters.HueRotation.unit})
-Blur(${filters.Blur.value}${filters.Blur.unit})
-Grayscale(${filters.Grayscale.value}${filters.Grayscale.unit})
-Sepia(${filters.Sepia.value}${filters.Sepia.unit})
-Opacity(${filters.Opacity.value}${filters.Opacity.unit})
-Invert(${filters.Invert.value}${filters.Invert.unit})
-`
+const filterMap = {
+  Brightness: "brightness",
+  Contrast: "contrast",
+  Saturation: "saturate",
+  HueRotation: "hue-rotate",
+  Blur: "blur",
+  Grayscale: "grayscale",
+  Sepia: "sepia",
+  Opacity: "opacity",
+  Invert: "invert"
+};
 
-    canvasCtx.drawImage(image,0,0)
+function applyFilter() {
+  if (!image) return;
 
- }
+  canvasCtx.clearRect(0, 0, imageCanvas.width, imageCanvas.height);
+
+  const filterString = Object.keys(filters)
+    .map(key => {
+      const { value, unit } = filters[key];
+      return `${filterMap[key]}(${value}${unit})`;
+    })
+    .join(" ");
+
+  canvasCtx.filter = filterString;
+  canvasCtx.drawImage(image, 0, 0);
+}
+
 // reset button
  resetButton.addEventListener("click",()=>{
     filters = {
@@ -331,19 +342,34 @@ link.click()
   }
 };
 
-Object.keys(presets).forEach(presetname=>{
-    const presetButton = document.createElement("button")
-    presetButton.classList.add("btn")
-    presetButton.innerText = presetname
-    presetcontainer.appendChild(presetButton)
+// ---------- PRESET APPLY LOGIC (COPY–PASTE) ----------
 
+function applyPreset(presetName) {
+  if (!presets[presetName] || !image) return;
 
-    presetButton.addEventListener("click",()=>{
-        const preset = presets[presetname]
-        
-        Object.keys(preset).forEach(filtername=>{
-            filters[filtername].value = preset[filtername]
-        })
-        applyFilter();
-    })
-})
+  const preset = presets[presetName];
+
+  Object.entries(preset).forEach(([filterName, value]) => {
+    if (filters[filterName]) {
+      filters[filterName].value = value;
+
+      const slider = document.getElementById(filterName);
+      if (slider) slider.value = value;
+    }
+  });
+
+  applyFilter();
+}
+
+// create preset buttons
+Object.keys(presets).forEach(presetName => {
+  const presetButton = document.createElement("button");
+  presetButton.className = "btn";
+  presetButton.innerText = presetName;
+
+  presetButton.addEventListener("click", () => {
+    applyPreset(presetName);
+  });
+
+  presetcontainer.appendChild(presetButton);
+});
