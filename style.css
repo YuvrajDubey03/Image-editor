@@ -123,3 +123,102 @@ canvas{
     flex-wrap: wrap;
     gap: var(--gutter-md);
 }
+
+/* ===========================
+   TABLET (max-width: 1024px)
+=========================== */
+@media (max-width: 1024px) {
+  main section {
+    flex-direction: column;
+    padding: var(--padding-lg);
+  }
+
+  main section .left,
+  main section .right {
+    width: 100%;
+  }
+
+  main section .top {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  canvas {
+    max-width: 100%;
+    max-height: 60vh;
+  }
+
+  .presets {
+    justify-content: center;
+  }
+}
+
+/* ===========================
+   MOBILE (max-width: 768px)
+=========================== */
+@media (max-width: 768px) {
+  main section {
+    padding: var(--padding-md);
+    gap: var(--gutter-md);
+  }
+
+  main section .top {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  main section .top .btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  main section .bottom {
+    padding: var(--padding-lg);
+    aspect-ratio: auto;
+    min-height: 250px;
+  }
+
+  canvas {
+    max-width: 100%;
+    max-height: 50vh;
+  }
+
+  main section .right {
+    padding: var(--padding-md);
+  }
+
+  main section .right h2 {
+    text-align: center;
+  }
+
+  .presets {
+    justify-content: center;
+  }
+
+  .presets .btn {
+    flex: 1 1 45%;
+    text-align: center;
+  }
+}
+
+/* ===========================
+   SMALL MOBILE (max-width: 480px)
+=========================== */
+@media (max-width: 480px) {
+  main section .bottom {
+    min-height: 200px;
+  }
+
+  .presets .btn {
+    flex: 1 1 100%;
+  }
+
+  main section .right .filter p {
+    font-size: 0.9rem;
+  }
+
+  main section .right .filter input::-webkit-slider-thumb {
+    width: 16px;
+    height: 16px;
+  }
+}

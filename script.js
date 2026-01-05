@@ -342,7 +342,7 @@ link.click()
   }
 };
 
-// ---------- PRESET APPLY LOGIC (COPY–PASTE) ----------
+// ---------- PRESET APPLY ----------
 
 function applyPreset(presetName) {
   if (!presets[presetName] || !image) return;
